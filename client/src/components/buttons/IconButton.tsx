@@ -10,7 +10,10 @@ const IconButton: React.FC<IconButtonProps> = ({
   className,
 }) => {
   return (
-    <button className={`${className ? className : ""}`} onClick={onClick}>
+    <button
+      className={`${className ? className : ""} select-none`}
+      onClick={onClick}
+    >
       {icon}
     </button>
   );

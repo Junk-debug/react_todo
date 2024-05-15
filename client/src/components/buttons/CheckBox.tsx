@@ -9,11 +9,14 @@ interface CheckBoxProps {
 
 const CheckBox: React.FC<CheckBoxProps> = ({ checked, onClick, className }) => {
   return (
-    <button className={className} onClick={onClick}>
+    <button
+      className={`${className ? className : ""} select-none`}
+      onClick={onClick}
+    >
       <img
         className="w-full"
         src={checked ? checkedIconPath : notCheckedIconPath}
-        alt=""
+        alt="checkbox"
       />
     </button>
   );
