@@ -4,42 +4,32 @@ import CloseIcon from "../../public/icons/close.svg?react";
 import EditIcon from "../../public/icons/edit.svg?react";
 import IconButton from "./buttons/IconButton";
 import CheckBox from "./buttons/CheckBox";
+import AdjustableInput from "./AdjustableInput";
 
 interface TODOItemProps {
   item: TODOItemType;
   onEditClick: () => void;
 }
 
-// TODO add modal window component
-
-// FIXME refactor code probably without using conentEditable and refactor logic
-
 const TODOItem: React.FC<TODOItemProps> = ({ item, onEditClick }) => {
   const [checked, setChecked] = useState<boolean>(item.checked);
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [value, setValue] = useState<string>(item.name);
-  const nameRef = useRef<HTMLSpanElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const coursorToEnd = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.setSelectionRange(
+        inputRef.current.value.length,
+        inputRef.current.value.length
+      );
+    }
+  };
 
   const onDoubleClick = () => {
     setIsEditable(true);
-    if (nameRef.current) {
-      nameRef.current.focus();
-
-      const content = nameRef.current?.textContent;
-      const range = document.createRange();
-
-      if (content) {
-        range.setStart(nameRef.current.childNodes[0], content.length);
-        range.setEnd(nameRef.current.childNodes[0], content.length);
-      }
-
-      const selection = window.getSelection();
-
-      if (selection) {
-        selection.removeAllRanges();
-        selection.addRange(range);
-      }
-    }
+    coursorToEnd();
   };
 
   return (
@@ -53,21 +43,16 @@ const TODOItem: React.FC<TODOItemProps> = ({ item, onEditClick }) => {
             checked={checked}
             onClick={() => setChecked((prev) => !prev)}
           />
-          <span
-            onChange={(e) => {
-              if (e.currentTarget.textContent !== null) {
-                setValue(e.currentTarget.textContent);
-              }
-            }}
+          <AdjustableInput
+            ref={inputRef}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
             onBlur={() => setIsEditable(false)}
-            ref={nameRef}
-            contentEditable={isEditable}
+            readOnly={!isEditable}
             className={`${
               checked ? "line-through opacity-50" : ""
             } focus-visible:outline-none`}
-          >
-            {value}
-          </span>
+          />
         </div>
         <div className="flex gap-[5px] invisible group-hover:visible">
           <IconButton
