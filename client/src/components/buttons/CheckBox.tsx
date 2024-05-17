@@ -10,6 +10,7 @@ interface CheckBoxProps {
 const CheckBox: React.FC<CheckBoxProps> = ({ checked, onClick, className }) => {
   return (
     <button
+      tabIndex={-1}
       className={`${className ? className : ""} select-none`}
       onClick={onClick}
     >

@@ -11,6 +11,7 @@ const IconButton: React.FC<IconButtonProps> = ({
 }) => {
   return (
     <button
+      tabIndex={-1}
       className={`${className ? className : ""} select-none`}
       onClick={onClick}
     >

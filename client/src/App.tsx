@@ -52,7 +52,7 @@ function App() {
         <ul
           ref={listRef}
           id="todos-list"
-          className="flex flex-col gap-2 flex-grow overflow-auto"
+          className="flex flex-col gap-2 flex-grow overflow-y-auto"
         >
           {todos.map((item) => {
             return (

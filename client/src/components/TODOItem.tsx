@@ -51,7 +51,9 @@ const TODOItem: React.FC<TODOItemProps> = ({ item, onEditClick }) => {
     <>
       <div
         onDoubleClick={onDoubleClick}
-        className="group flex items-baseline py-[6px] border rounded-md justify-between px-2 select-none"
+        className={`group flex items-baseline py-[6px] border rounded-md justify-between px-2 select-none ${
+          isEditable ? "ring-[1.5px] ring-inset" : ""
+        }`}
       >
         <div className="flex items-baseline gap-2">
           <CheckBox
@@ -67,11 +69,16 @@ const TODOItem: React.FC<TODOItemProps> = ({ item, onEditClick }) => {
                 setValue(spanRef.current.textContent);
               }
             }}
-            onBlur={() => setIsEditable(false)}
+            onBlur={() => {
+              setIsEditable(false);
+              if (value === "") {
+                setValue(item.name);
+              }
+            }}
             contentEditable={isEditable ? "plaintext-only" : false}
             suppressContentEditableWarning={true}
             style={{ wordBreak: "break-word" }}
-            className={`${isEditable ? "text-gray-500" : ""} ${
+            className={`${
               checked ? "line-through opacity-50" : ""
             } focus-visible:outline-none shrink`}
           >
